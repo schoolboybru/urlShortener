@@ -9,10 +9,10 @@ export const UrlForm = () => {
 
   const submitUrl = async ({ value }: { value: string }) => {
     const response = await axios.post(`${baseUrl}/url?value=${value}`);
-    return response.data;
+    setShortenedUrl(response.data.shortenedUrl);
   };
 
-  const { mutate, isLoading, error } = useMutation(submitUrl);
+  const { mutate, isLoading } = useMutation(submitUrl);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -45,11 +45,16 @@ export const UrlForm = () => {
             className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
             type="submit"
           >
+            {isLoading && <svg className="animate-spin h-5 w-5 mr-3"></svg>}
             Submit
           </button>
-          {!isLoading && !error && shortenedUrl && <text></text>}
         </div>
       </form>
+      {shortenedUrl && (
+        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <text>{`${baseUrl}/url?value=${shortenedUrl}`}</text>
+        </div>
+      )}
     </div>
   );
 };

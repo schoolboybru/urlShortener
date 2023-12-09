@@ -35,7 +35,7 @@ func (h UrlHandler) GetUrl(c *gin.Context) {
 		println(err)
 	}
 
-	c.JSON(http.StatusOK, gin.H{"Url": v})
+	c.Redirect(http.StatusPermanentRedirect, v)
 }
 
 func NewHandler(urlStore urlStore) *UrlHandler {
