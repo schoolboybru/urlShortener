@@ -11,16 +11,16 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	urlStore, err := database.New()
+	urlCache, err := database.New()
 
 	if err != nil {
 		panic(err)
 	}
 
-	urlHandler := routes.NewHandler(urlStore)
+	urlHandler := routes.NewHandler(urlCache)
 
-	r.GET("/url", urlHandler.GetUrl)
-	r.POST("/url", urlHandler.AddUrl)
+	r.GET("/url", urlHandler.Get)
+	r.POST("/url", urlHandler.Add)
 
 	r.Run(":8080")
 }
