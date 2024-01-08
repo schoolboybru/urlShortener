@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -13,7 +12,6 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 		authorization := c.GetHeader("Authorization")
 		if strings.HasPrefix(authorization, "Bearer ") {
 			splits := strings.Split(authorization, " ")
-			fmt.Println(splits)
 			if len(splits) != 2 {
 				c.JSON(http.StatusBadRequest, gin.H{"message": "Token is invalid"})
 			}
@@ -23,5 +21,3 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
-
-func createToken()

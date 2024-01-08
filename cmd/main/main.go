@@ -4,7 +4,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/schoolboybru/urlShortener/internal/database"
-	"github.com/schoolboybru/urlShortener/internal/routes"
+	"github.com/schoolboybru/urlShortener/internal/handlers"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 		panic(err)
 	}
 
-	urlHandler := routes.NewHandler(urlCache)
+	urlHandler := handlers.NewHandler(urlCache)
 
 	r.GET("/url", urlHandler.Get)
 	r.POST("/url", urlHandler.Add)

@@ -1,6 +1,6 @@
 package models
 
 type Url struct {
-	short string `json:"short"`
-	long  string `json:"long"`
+	Short string `json:"short"`
+	Long  string `json:"long"`
 }

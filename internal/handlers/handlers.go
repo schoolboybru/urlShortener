@@ -1,4 +1,4 @@
-package routes
+package handlers
 
 import (
 	"net/http"
@@ -9,7 +9,7 @@ import (
 )
 
 type handler struct {
-	urlCache database.UrlCache
+	store database.Store
 }
 
 type UrlHandler interface {
@@ -20,17 +20,17 @@ type UrlHandler interface {
 func (h *handler) Add(c *gin.Context) {
 	var url = c.Query("value")
 	hashedValue := util.GetMd5Hash(url)
-	v, err := h.urlCache.AddUrl(url, hashedValue)
+	v, err := h.store.AddUrl(url, hashedValue)
 
 	if err != nil {
 		println(err)
 	}
 
-	c.JSON(http.StatusOK, gin.H{"shortenedUrl": v})
+	c.JSON(http.StatusOK, gin.H{"shortenedUrl": v.Short})
 }
 func (h *handler) Get(c *gin.Context) {
 	var url = c.Query("value")
-	v, err := h.urlCache.GetUrl(url)
+	v, err := h.store.GetUrl(url)
 
 	if err != nil {
 		println(err)
@@ -39,8 +39,8 @@ func (h *handler) Get(c *gin.Context) {
 	c.Redirect(http.StatusPermanentRedirect, v)
 }
 
-func NewHandler(urlCache database.UrlCache) UrlHandler {
+func NewHandler(store database.Store) UrlHandler {
 	return &handler{
-		urlCache: urlCache,
+		store: store,
 	}
 }
